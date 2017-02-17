@@ -16,5 +16,3 @@ app.get('/*', function (req, res) {
 app.listen(3000, function () {
   console.log('Timestamp microservice listening on port 3000!')
 })
-// console.log(convertString("December 15, 2015"));
-// console.log(convertString("1450137600"));
