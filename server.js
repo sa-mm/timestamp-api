@@ -4,6 +4,9 @@ var convertString = require('./converter');
 var app = express()
 
 app.get('/', function(req, res) {
+  console.log(req.hostname);
+
+    console.log(req.baseUrl);
     res.sendFile(path.join(__dirname + '/index.html'));
 });
 
