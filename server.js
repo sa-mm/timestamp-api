@@ -3,6 +3,8 @@ var path = require('path')
 var convertString = require('./converter');
 var app = express()
 
+app.set('port', (process.env.PORT || 3000));
+
 app.get('/', function(req, res) {
   console.log(req.hostname);
 
@@ -16,6 +18,6 @@ app.get('/*', function (req, res) {
   res.send(string);
 })
 
-app.listen(3000, function () {
+app.listen(app.get('port'), function() {
   console.log('Timestamp microservice listening on port 3000!')
 })
