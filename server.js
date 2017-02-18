@@ -6,9 +6,6 @@ var app = express()
 app.set('port', (process.env.PORT || 3000));
 
 app.get('/', function(req, res) {
-  console.log(req.hostname);
-
-    console.log(req.baseUrl);
     res.sendFile(path.join(__dirname + '/index.html'));
 });
 
@@ -19,5 +16,5 @@ app.get('/*', function (req, res) {
 })
 
 app.listen(app.get('port'), function() {
-  console.log('Timestamp microservice listening on port 3000!')
+  console.log('Timestamp microservice listening on port' + app.get('port'))
 })
