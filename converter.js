@@ -1,7 +1,7 @@
 var convertString = function (str) {
   var output = {}
   var unixRe = /\d{10}/
-  var utcRe = /[\d]{4}\-\d{1,}-\d{1,}/
+  var utcRe = /[\d]{4}-\d{1,}-\d{1,}/
   if (str.match(unixRe)) {
     // it's unix, so set utc
     output.utc = setUtc(+str)
@@ -15,7 +15,7 @@ var convertString = function (str) {
     output.unix = date.getTime().toString()
     output.utc = date.toUTCString()
   } else {
-    output = {'error': 'Invalid Date' }
+    output = { 'error': 'Invalid Date' }
   }
   // output is object literal
   return output
