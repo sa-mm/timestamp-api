@@ -1,62 +1,38 @@
 var convertString = function (str) {
-  var output = {unix: null, natural: null};
-  var unixRe = /\d{10}/;
-  var natRe = /[A-z]{3,}\s\d+,\s\d+/;
+  var output = {}
+  var unixRe = /\d{10}/
+  var utcRe = /[\d]{4}\-\d{1,}-\d{1,}/
   if (str.match(unixRe)) {
-    // it's unix, so set natural
-    output.natural = setNatural(str);
-    output.unix = +str;
-  } else if (str.match(natRe)) {
-    // it's a natural language date, so set unix
-    output.unix = setUnix(str);
-    output.natural = str;
+    // it's unix, so set utc
+    output.utc = setUtc(+str)
+    output.unix = str
+  } else if (str.match(utcRe)) {
+    // it's a utc language date, so set both
+    output.unix = setUnix(str)
+    output.utc = setUtc(str)
+  } else if (str.length === 0) {
+    const date = new Date()
+    output.unix = date.getTime().toString()
+    output.utc = date.toUTCString()
+  } else {
+    output = {'error': 'Invalid Date' }
   }
   // output is object literal
-  return output;
+  return output
 }
 
-function setUnix(str) {
-  var date = new Date(str);
-  return date.valueOf() / 1000;
+function setUnix (str) {
+  var date = new Date(str)
+  return date.getTime().toString()
 }
 
-function setNatural(str) {
-  var date = new Date(+str * 1000);
-  var naturalDate = formatDate(date);
-  return naturalDate;
+function setUtc (str) {
+  var date = new Date(str)
+  return date.toUTCString()
 }
 
-function formatDate(date) {
-  // date.getMonth() returns a zero index number for the month
-  var monthObj = {
-    '0': 'January',
-    '1': 'February',
-    '2': 'March',
-    '3': 'April',
-    '4': 'May',
-    '5': 'June',
-    '6': 'July',
-    '7': 'August',
-    '8': 'September',
-    '9': 'October',
-    '10': 'November',
-    '11': 'December'
-  }
-  var monthIntStr = date.getMonth().toString();
-  var month = monthObj[monthIntStr];
-
-  var day = date.getDate().toString();
-  if (day.length < 2) {
-      day = '0' + day;
-    }
-
-  var year = date.getFullYear().toString();
-  
-  return month + ' ' + day + ', ' + year;
-}
-
-module.exports = convertString;
+module.exports = convertString
 
 // Example usage:
-// https://timestamp-ms.herokuapp.com/December%2015,%202015
-// https://timestamp-ms.herokuapp.com/1450137600
+// https://curse-arrow.glitch.me/api/timestamp/1450137600000
+// https://curse-arrow.glitch.me/api/timestamp/2015-12-25
